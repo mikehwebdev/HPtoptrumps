@@ -1,0 +1,757 @@
+:root {
+    --card-background-color-1:grey;
+    --card-background-color-2: #ffffff;
+    --card-text: #000000;
+    --card-button-color-1:grey;
+    --card-button-color-2:#ffffff;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+main > * {
+    display: none;
+}
+
+.device-warning-landscape, .device-warning-portrait{
+    display: none;
+}
+
+body {    
+    height: 100vh;
+    position: relative;
+    font-family: 'Lora', sans-serif;
+    background: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)), url(./images/main.jpg) ;   
+    
+    color: #faf4ea;
+    
+   /*Photo by <a href="https://unsplash.com/@bitu2104?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Tuyen Vo</a> on <a href="https://unsplash.com/s/photos/harry-potter?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>*/
+}
+
+h1 {
+    font-size: 3rem;
+    font-family: 'Harry Potter', 'Lora' ,sans-serif;
+    text-align: center;
+    margin: 2rem 0 ;
+}
+
+.main-title {
+    background-color: #D4AF37;
+    filter:drop-shadow(2px 2px 2px  #000000);
+    background-image: linear-gradient(45deg,#f4e409, #c36f09,#f4e409, #c36f09,#f4e409);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+main {
+    margin: 0 auto;    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input {
+    margin-bottom: 1.5rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+label {
+    letter-spacing: 1px;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+button, .uploadImage, input, .device-warning-landscape, .device-warning-portrait {
+    padding: 1rem 2rem;
+    margin: 1rem 0;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.70) 5px 10px 15px;
+    transition: 250ms;
+}
+
+.mega-flaming-card {
+    box-shadow:   0 -20px 40px #ff8000, 0 -36px 80px #F00;   
+    animation: 0.25s mega-flaming infinite;
+}
+
+.flaming-card {
+    box-shadow: 0 -1px 4px #FFF, 0 -2px 10px #ff0, 0 -10px 20px #ff8000, 0 -18px 40px #F00;
+    animation: 0.5s flaming infinite;
+}
+
+button:active {
+    scale: 0.96;
+    transition: 10ms;
+    box-shadow: none;
+}
+button:hover{
+    transition: 250ms;
+}
+
+#uploadImage {
+    display: none;
+}
+
+button, input, .alert, .uploadImage, .device-warning-landscape,.device-warning-portrait {
+    min-width: 20rem;
+    color: #432615;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 1rem;
+    background-color: #faf4ea;
+    border: none;
+    font-family: 'Lora', sans-serif;
+}
+
+.alert {
+    padding: 1rem 2rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+input {    
+    padding: .5rem 1rem;
+}
+
+
+/* some of the flexboxes on card left re wrong - possible issue with width?*/
+
+h2 {
+    font-family: 'Lora' ,sans-serif;
+    margin: .6rem 0 .5rem 1.2rem;
+    font-size: 1.9rem;
+    align-self: flex-start;
+    text-align: center;
+}
+
+.button-container {
+    width: 90%;
+    margin: 0.5rem 0 1rem 1rem;
+    rotate: 0.2deg;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    align-self: flex-start;
+    transition: all 200ms ease-in-out;
+}
+
+.squished {
+    width: 48%;
+    margin-left: .75rem;
+    transition: 200ms ease-in-out;
+}
+
+.dice-flex {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin: 2rem 0;  
+}
+
+.dice-image {
+    filter:drop-shadow(  10px 10px #000);
+}
+
+li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background: linear-gradient(45deg, var(--card-button-color-1), var(--card-button-color-2));
+    padding: .9rem 2em;
+    list-style-type: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+li:hover {
+    transition: 100ms;
+    scale: 1.05;
+    box-shadow: rgba(0, 0, 0, 0.70) 5px 10px 15px;
+}
+
+ul {
+    padding: 0;
+}
+.user-message {
+    margin: 0 auto;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left:50%;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    color: #432615;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    font-weight: 500;
+    background-color: #faf4ea;
+    z-index:4;
+    box-shadow: rgba(0, 0, 0, 0.70) 5px 10px 15px;
+}
+
+.navigation-elements {
+    margin: 0 auto;
+    width: 90%;
+    border-radius: 5px;
+    padding: 1rem 1rem;
+}
+
+.blurred {
+   filter: blur(4px)
+}
+
+.remaining-cards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+     width:100%;
+}
+
+img {
+    object-fit:contain;
+    width: 100%;
+}
+
+.image-container {
+    width:90%;   
+    min-height: 40%;
+    max-height: 20rem;
+    overflow-y: hidden;
+    border-radius: 10px;
+    rotate: -0.75deg;
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+}
+
+.card-outer1,.card-outer2,.card-outer-custom {
+    order: 1;
+    background-color: var(--card-text);
+    /*min-width: 22rem;*/
+    min-width: 100%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    aspect-ratio: 0.6/1;
+    transform: translateX(0%);
+    z-index: 2;
+    box-shadow: rgb(3, 5, 7) 0px 20px 30px -10px;
+    transition: all 200ms ease-in-out;
+}
+
+.card-inner {
+    color: var(--card-text);
+    display: flex;
+    background: linear-gradient(90deg, var(--card-background-color-1), var(--card-background-color-2)); 
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    width: 100%;
+    height: 95%;
+    margin: 1rem 1.25rem;
+    z-index: 1;
+}
+.shifted {
+    transform: translateX(-54%);
+    z-index: 3;
+    transition: 200ms ease-in-out;
+}
+
+.active {
+    order: 0;
+    z-index: 2;
+}
+.boing {
+    animation: boing 1s;
+   }
+.centered {
+    position: absolute;    
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.visible {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.centered-h2P1, .centered-h2P2 {
+    
+    margin:0 0 1rem 0;
+   }
+.card-container {
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 95%;
+    gap: 1rem;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    border-radius: 10px;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+
+.disabled-controls {
+    pointer-events: none;   
+}
+
+.choice {
+    background: yellow;
+    opacity: .5; 
+    box-shadow: rgba(0, 0, 0, 0.70) 5px 10px 15px;
+}
+
+.error {
+    background: #FF7070;
+    
+    box-shadow: rgba(0, 0, 0, 0.70) 5px 10px 15px;
+}
+
+#uploadedImage {
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    box-shadow: rgba(0, 0, 0, 0.70) 5px 10px 15px;
+}
+
+.centered-h2 {
+    margin: 1rem auto; 
+    font-size: 1.6rem;
+}
+
+
+.mini-card {
+    position: relative;
+    left: -5px;
+    height: 30px;
+    width: 18px;
+    background:  var(--card-text);
+    margin-left: 2px;
+    border-radius: 4px;
+}
+
+#textDeckFlex,#cardDeckFlex {
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#p1Deck, #p2Deck {
+    display: flex;
+    flex-direction:row;
+    align-items: center;
+    margin-top: 3px;
+}
+
+#p1DeckText {
+    padding-top: 0.2rem;
+}
+
+#p2DeckText {
+    padding-bottom: 0.3rem;
+}
+
+#p1DeckFlex, #p2DeckFlex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#p1DeckText, #p2DeckText {
+    width:100%;
+    margin-top: 3px;
+}
+
+span {
+    margin: 0 0.5rem;
+}
+
+.deck-flex {
+    display: grid;
+    width: 90%;
+    max-width: 20rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+    "G S"
+    "R H";
+    margin: 1rem auto; 
+    gap: 0.25rem;
+    
+}
+
+.deck-choice {
+    aspect-ratio: 0.6/1;
+    transition: all 2s;
+    cursor: pointer;
+    border-radius: 15px;
+    box-shadow: rgb(3, 5, 7) 0px 20px 30px -10px;
+    perspective: 1000px;
+    
+}
+
+
+.card-logo {
+    filter: drop-shadow(10px 10px 10px #000);
+}
+
+
+
+
+.front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; 
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+    display: grid;
+    place-items: center;
+}
+
+.back{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; 
+    backface-visibility: hidden;
+    transform: rotateX(0deg);
+    display: grid;
+    place-items: center;
+}
+
+.deck-choice-container {
+    width: 90%;
+}
+
+.expanded-deck {
+    border-radius: 10px;
+    transition: all 2s;
+}    
+
+.gr-translate {
+    transform: scale(2, 2) translate(25%, 25%)  rotateY(540deg);
+}
+
+.sl-translate {
+    transform:scale(2, 2) translate(-25%, 25%) rotateY(540deg);
+}
+
+.rc-translate {
+    transform:scale(2, 2) translate(25%, -25%) rotateY(540deg);
+}
+
+.hp-translate {
+    transform:scale(2, 2) translate(-25%, -25%) rotateY(540deg);
+}
+
+.shrunk-deck {
+    transform: scale(0,0);
+    transition: all 1s;
+    opacity: 0;
+}
+
+#gryffindorDeck{
+    background-image:linear-gradient(135deg, #D3A625,#D3A625, #fff);
+    grid-area: G;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+#slytherinDeck{
+    background-image:linear-gradient(225deg, #1A472A,#1A472A,#fff);
+    grid-area: S;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+#ravenclawDeck{
+    background-image:linear-gradient(45deg, #222F5B,#222F5B,#fff);
+    grid-area: R;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+#hufflepuffDeck{
+    background-image:linear-gradient(315deg, #60605C,#60605C,#fff);
+    grid-area: H;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+}
+
+.cheeky-hint {
+    display: none;
+}
+
+.active .cheeky-hint {
+    display: block;
+    position: absolute;
+    z-index: 4;
+    right: -15%;
+    padding: 0.5rem 0.5rem;
+    top: 28%;
+    transform: rotate(-90deg);
+    text-align: center;
+    color: #432615;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 1rem;
+    background-color: #faf4ea;
+    border: none;
+    font-family: 'Lora', sans-serif;
+    box-shadow: rgb(3, 5, 7) 0px 20px 30px -10px;
+    animation: pulse infinite 2s;
+}
+
+.active .cheeky-hint::after {
+    content: " ";
+    position: absolute;
+    top: 100%; 
+    left: 45%;
+    border-width: 15px;
+    border-style: solid;
+    border-color: #faf4ea transparent transparent transparent; 
+  }
+  
+@keyframes flaming{
+    0%{box-shadow:  0 -1px 4px #FFF, 0 -2px 10px #ff0, 0 -10px 20px #ff8000, 0 -18px 40px #F00;}
+    100%{box-shadow:  0 -1px 4px #FFF, 0 -2px 10px #ff0, 0 -10px 20px #ff8000, 0 -100px 40px #F00;}
+}
+
+@keyframes mega-flaming{
+    0%{box-shadow:  0 -10px 20px #ff8000, 0 -18px 40px #F00;}
+    100%{box-shadow: 0 -10px 20px #ff8000, 0 -10px 40px #F00;}
+}
+
+@keyframes pulse {
+    0%{right:-18%}
+    50%{right: -20%}
+    100%{right:-18%}
+}
+
+@keyframes warning {
+    0%{scale: 1; }
+    50%{scale: 1.1;
+        color: white;
+        background-color: red;}
+    0%{scale: 1;}
+}
+
+@keyframes active-card {
+    0% {scale:1}
+    30% {scale:1}
+    40% {scale:1.05}
+    50% {scale:1}
+    60% {scale:1.05}
+    0% {scale:1}
+}
+
+@keyframes boing{
+    0% {scale:1}
+    33% {scale:1.05}
+    55% {scale:1}
+    77% {scale:1.05}
+    100% {scale:1}  
+}
+
+/* to be added to added elements i.e card stats*/
+@keyframes error-flash {
+    0% {box-shadow: 10px 10px 50px;}
+    50% {box-shadow: 5px 5px 25px;}
+    100% {box-shadow: 0px 0px 0px;}
+    
+}
+
+@media screen and (max-width: 767px) and (orientation:landscape)
+{
+    main {
+        display: none;
+    }
+    .device-warning-landscape{
+        display: block;
+        position: absolute;
+        top: 45%;
+        left: 30%;
+        animation: warning 2s infinite;
+    }
+}
+
+@media screen and (min-width: 768px)  and (orientation:portrait)
+{
+    main {
+        display: none;
+    }
+    .device-warning-portrait{
+        display: block;
+        position: absolute;
+        top: 45%;
+        left: 28%;
+        animation: warning 2s infinite;
+    }
+}
+/*  the below media query ensures all mobile devices display the inactive card is hidden off screen but is still swipeable*/
+@media screen and (min-width:430px) {
+    
+    .card-outer1, .card-outer2, .card-outer-custom {
+        min-width: 26rem;
+        max-width: 23rem;
+    }
+
+}
+
+/*Tablet screen size*/
+@media screen and (min-width: 768px) {
+  
+   button {
+    box-shadow: none;
+   }
+    button:hover {
+        box-shadow: rgba(0, 0, 0, 0.70) 5px 10px 15px;
+    }
+    .card-container {
+        overflow-x: visible;
+
+    }
+    .card-outer1, .card-outer2, .card-outer-custom {
+        min-width: 23rem;
+        width: 23rem;
+    }
+    .cheeky-hint {
+        visibility: hidden;
+    }
+    .card-container {
+        justify-content: center;
+    }
+
+    #cardDeckFlex {
+        margin-left: 22rem;
+    }
+    .shifted {
+        transform: none;
+    }
+    .squished {
+        width: 90%;
+        margin-left: 0;
+        transition: none;
+    }
+    .button-container {
+        align-self: center;
+        margin-left: 0;
+    }
+
+    .centered-h2 {
+        font-size: 2.5rem;
+    }
+    .alignable {
+        transition: none;
+    }
+    #turnIndicator {
+        transition: all 1s;
+        
+    }
+    .ch2-left-aligned{
+        transform: translateX(-12rem);
+        transition: all ease-in-out 500ms;
+    }
+    .ch2-right-aligned{
+        transform: translateX(12rem);
+        transition: all ease-in-out 500ms;
+    }
+    
+    .cards-left {
+        font-size: 1.5rem;
+}
+
+   /*#uploadedImage {
+    width: 30%;
+   }*/
+   .navigation-elements {
+    width: 30%;
+    font-size: 1.5rem;
+    text-align: center;
+   }
+   .active {
+    order: 1;
+   }
+
+  
+
+   .player-turn {
+    animation: active-card 2.5s infinite;
+   }
+  
+   .inner-dice-flex {
+    width: 10rem;
+   }
+   .dice-flex {
+    gap: 4rem;
+   }
+  
+  
+
+   .deck-flex {
+    max-width: 60rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: none;
+    grid-template-areas: 
+    "G S R H"
+    ;
+   }
+   
+.gr-translate {
+    transform:translate(152%) rotateY(540deg);
+}
+
+.sl-translate {    
+    transform:translate(48%) rotateY(540deg);
+}
+
+.rc-translate {
+    transform:translate(-52%) rotateY(540deg);
+}
+
+.hp-translate {
+    transform:translate(-152%) rotateY(540deg);
+}
+
+}
+@media screen and (min-width: 1000px){
+    
+
+.ch2-left-aligned{
+    transform: translateX(-11rem);
+    transition: all ease-in-out 500ms;
+}
+.ch2-right-aligned{
+    transform: translateX(11rem);
+    transition: all ease-in-out 500ms;
+}
+
+.alignable {
+    margin-top: 0;
+    font-size: 2.2rem;
+}
+
+.card-outer1, .card-outer2, .card-outer-custom {
+    min-width: 15rem;
+    width: 22rem;
+}
+}

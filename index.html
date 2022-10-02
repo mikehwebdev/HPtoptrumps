@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <title>Harry Potter Top Trumps</title>
+        <link href="style.css" rel="stylesheet">
+        <link href="http://fonts.cdnfonts.com/css/harry-potter" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel='icon' href='./images/favicon.ico' type='image/x-icon/'>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body> 
+        <div class="device-warning-portrait">Please use device in landscape mode</div>
+        <div class="device-warning-landscape">Please use device in portrait mode</div>
+        <main> 
+            <h1 class="visible main-title">Harry Potter Top Trumps</h1>
+            <div id="welcome"class="navigation-elements visible centered"> 
+                <button id="letsGo" class="visible">Start Game</button>
+            </div>
+                
+            <div id="playerDetails" class="navigation-elements centered">
+                <div id="player1Data">
+                    
+                    <input id="player1Name" type="text" placeholder="Enter player 1's name...">
+                </div>
+                <div id="player2Data">
+                    <input id="player2Name" type="text" placeholder="Enter player 2's name...">
+                </div>
+                <button id="nextBtn">Next</button>
+            </div>
+            <div class="deck-choice-container">
+                <h2 class="centered-h2">Choose your deck</h2>
+                <div class="deck-flex">
+                <div id="gryffindorDeck" class="deck-choice">
+                    <div class="front">Gryffindor</div>
+                    <div class="back"><img class="card-logo" src="images/deck-logo.png" alt="Hogwarts logo"/></div>
+                </div>
+                <div id="slytherinDeck"class="deck-choice">
+                    <div class="front">Slytherin</div>
+                    <div class="back"><img class="card-logo" src="images/deck-logo.png" alt="Hogwarts logo"/></div>
+                </div>
+                <div id="ravenclawDeck"class="deck-choice">
+                    <div class="front">Ravenclaw</div>
+                    <div class="back"><img class="card-logo" src="images/deck-logo.png" alt="Hogwarts logo"/></div>
+                </div>
+                <div id="hufflepuffDeck"class="deck-choice">
+                    <div class="front">Hufflepuff</div>
+                    <div class="back"><img class="card-logo"  src="images/deck-logo.png" alt="Hogwarts logo"/></div>
+                </div>
+                </div>
+                <button id="ontoCustomCards">Next</button>
+            </div>
+            <div id="customCardQuestion" class="navigation-elements centered">
+                <button id="cardCreatorBtn">Create custom card</button>
+                <button id="continueBtn">Skip </button>
+            </div>
+            <div id="diceRollEl" class="navigation-elements centered">
+                <div class="dice-flex">
+                <div class="inner-dice-flex 1">
+                    <h2 class="centered-h2P1"></h2>
+                    <div id="dice1El"><img class="dice-image" src="/images/1.png"></div>
+                </div>
+                <div class="inner-dice-flex 2">
+                    <h2 class="centered-h2P2"></h2>
+                    <div id="dice2El"><img class="dice-image" src="/images/1.png"></div>
+                </div>
+                </div>
+                <div id="rollWinner">
+                    <h2 class="centered-h2">Let's get rolling!</h2>
+                </div>
+                <button id="diceBtn">Roll dice</button>
+                <button id="letsPlayBtn">Start game</button>
+            </div>
+            <div id="cardCreator-image" class="navigation-elements centered">
+                <label for="uploadImage" class="uploadImage">Upload your own image</label>
+                <input type="file" id="uploadImage" accept="image/jpeg, image/png, image/jpg">
+                <div id="uploadedImage" class="image-container"></div>
+
+                <button id="ontoStats">Next</button>
+            </div>
+            <div id="cardCreator-stats" class="navigation-elements">
+                <label for="nameCustom">Character Name</label>
+                <input type="text" id="nameCustom">
+                
+                <label for="magicCustom">Magic</label>
+                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="magicCustom">
+
+                <label for="cunning">Cunning</label>
+                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="cunningCustom">
+
+                <label for="courage">Courage</label>
+                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="courageCustom">
+
+                <label for="wisdom">Wisdom</label>
+                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="wisdomCustom">
+
+                <label for="temper">Temper</label>
+                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="temperCustom">
+                <button id="randomiseBtn">Randomise stats</button>
+                <button id="createCardBtn">Create my card</button>
+                <div id="missingStatsAlert"></div>
+            </div>
+                <div id="customCardDisplay"></div>
+                <div id="gameWinner" class="navigation-elements"></div>
+                <div id="round-winner-message" class="user-message navigation-elements"></div>
+                <div id="game-winner-message"  class="user-message navigation-elements"></div>
+                <div class="remaining-cards">
+                    <div id="textDeckFlex">
+                        <div id="p1DeckText"></div>
+                        <div id="p2DeckText"></div>
+                    </div>
+                    <div id="cardDeckFlex">                      
+                        <div id="p1Deck"></div>
+                        <div id="p2Deck"></div>
+                    </div>
+                </div>
+                <div id="turnIndicator"></div>
+            <div class="card-container blurred">
+                <div class="card-outer1">
+                    <div class="card-inner" id="card1"></div>
+                </div>
+                <div class="card-outer2">
+                    <div class="card-inner" id="card2"></div>
+                </div>
+            </div>
+           
+            <div id="customCardBtns" class="navigation-elements">
+            </div>
+            <div id="unequalDeckEl" class="navigation-elements"></div>
+        </main>
+        <script type="module" src="app.js" ></script>
+    </body>
+</html>
