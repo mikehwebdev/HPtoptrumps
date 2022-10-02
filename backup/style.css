@@ -1,0 +1,131 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    position: fixed;
+
+}
+
+main {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    
+    margin: 0 auto;
+}
+.start-button {
+    border: 2px black solid;
+    padding: 2rem 1rem;
+    margin: 1rem 0;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid black;
+    width: auto;
+    width: 30rem;
+}
+
+
+.character-image {
+    object-fit:contain;
+    width: 100%;
+}
+
+.image-container {
+    width:30rem;
+    border: 1px solid black;
+    
+}
+
+li {
+    border: 2px solid black;
+    padding: 1em 2em;
+    list-style-type: none;
+}
+li:hover {
+    background-color: bisque;
+}
+
+ul {
+    padding: 0;
+}
+.winner-message {
+    margin: 0 auto;
+    display: none;
+    background-color: white;
+    position: fixed;
+    top: 50%;
+    left:50%;
+    border: 2px black solid;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+}
+
+.blurred {
+    
+   filter: blur(10px);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+.active {
+width: 80%;
+}
+
+.centered {
+    background: white;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+.visible {
+    display: grid;
+    z-index: 1;
+}
+
+.invisible {
+    display: none;
+}
+
+.disabled-controls {
+    pointer-events: none;   
+}
+
+.choice {
+    background-color: lightblue;
+}
+
+#uploadedImage {
+    width: 400px;
+    height: 225px;
+    border: 1px solid black;
+    background-position: center;
+    background-size: cover;
+}
