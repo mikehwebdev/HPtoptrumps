@@ -23,7 +23,7 @@ body {
     height: 100vh;
     position: relative;
     font-family: 'Lora', sans-serif;
-    background: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)), url(./images/main.jpg) ;   
+    background: linear-gradient(rgba(0, 0, 0, 0.2),rgba(0, 0, 0, 0.2)), url(./images/main.jpg) ;   
     
     color: #faf4ea;
     
@@ -35,6 +35,11 @@ h1 {
     font-family: 'Harry Potter', 'Lora' ,sans-serif;
     text-align: center;
     margin: 2rem 0 ;
+}
+
+.hide-header {
+    transition: 500ms all;
+    transform: translateY(-150%)
 }
 
 .main-title {
@@ -155,6 +160,8 @@ h2 {
 .dice-flex {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
     gap: 2rem;
     margin: 2rem 0;  
 }

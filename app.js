@@ -51,7 +51,7 @@ const ontoCustomCardsBtn = document.getElementById('ontoCustomCards')
 const innerDiceFlex1h2P1 = document.querySelector('.centered-h2P1')
 const innerDiceFlex1h2P2 = document.querySelector('.centered-h2P2')
 const deckFlexEl = document.querySelector('.deck-flex')
-
+const mainTitleEl = document.querySelector('.main-title')
 
 function deckManipulator(e){
     console.log(e.target)
@@ -131,7 +131,6 @@ player2Name.value = ''
 
 
 function gameStart(){
-    document.querySelector('.main-title').classList.remove('visible')
     battleArray.push(player1Deck[0],player2Deck[0])
     player1Deck.shift()
     player2Deck.shift()
@@ -193,6 +192,11 @@ class Character {
     }
 
 letsGoBtn.addEventListener('click', ()=>{
+    mainTitleEl.classList.add('hide-header')
+    setTimeout(()=>{
+        mainTitleEl.style.display = 'none'
+    }, 500)
+    //document.querySelector('.main-title').classList.remove('visible')
     welcomeEl.classList.remove('visible')
     playerDetailsEl.classList.add('visible')
 })
@@ -600,8 +604,8 @@ function displayRoundWinner() {
             setTimeout(()=>{document.getElementById('buttonContainercard2').classList.toggle('squished')},3000) 
             
         }
-        roundWinnerMessageEl.innerHTML = `
-        ${battleArray[0].characterName} beats ${battleArray[1].characterName}`
+        roundWinnerMessageEl.innerHTML = `<p>
+        ${battleArray[0].characterName} beats ${battleArray[1].characterName}</p>`
     } else {
         if (card2Outer.classList.contains('active')) {
             card1Outer.classList.add('shifted') 
