@@ -256,6 +256,11 @@ img {
     scroll-snap-align: start;
 }
 
+.card-outer-custom {
+    width: 95%;
+    min-width: 95%;
+}
+
 .card-inner {
     color: var(--card-text);
     display: flex;
@@ -617,7 +622,7 @@ span {
 /*  the below media query ensures all mobile devices display the inactive card is hidden off screen but is still swipeable*/
  @media screen and (min-width:430px) {
     
-    .card-outer1, .card-outer2, .card-outer-custom {
+    .card-outer1, .card-outer2{
         min-width: 26rem;
         max-width: 23rem;
     }
@@ -637,7 +642,7 @@ span {
         overflow-x: visible;
 
     }
-    .card-outer1, .card-outer2, .card-outer-custom {
+    .card-outer1, .card-outer2 {
         min-width: 23rem;
         width: 23rem;
     }
