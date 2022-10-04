@@ -424,6 +424,7 @@ function letsPlay(){
 }
 
 cardCreatorBtn.addEventListener('click', ()=>{
+    localStorage.removeItem("uploaded image")
     customCardQuestionEl.classList.remove('visible')
     diceRollEl.classList.remove('visible')
     cardCreatorImageEl.classList.add('visible')
