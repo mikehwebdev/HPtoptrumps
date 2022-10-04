@@ -239,7 +239,7 @@ diceBtn.addEventListener('click', ()=>{
                 diceBtn.style.display = 'none'
                 
 
-            dice1El.innerHTML > dice2El.innerHTML? rollWinner.innerHTML = `<h2 class="centered-h2">${localStorage.getItem('p1Name')} wins!</h2>`: rollWinner.innerHTML = `<h2 class="centered-h2">${localStorage.getItem('p2Name')} wins!</h2>`
+            dice1El.innerHTML > dice2El.innerHTML? rollWinner.innerHTML = `<h2 class="centered-h2">${localStorage.getItem('p1Name')} goes first!</h2>`: rollWinner.innerHTML = `<h2 class="centered-h2">${localStorage.getItem('p2Name')} goes first!</h2>`
             diceBtn.classList.remove('disabled-controls')
         } else {
             rollWinner.innerHTML = `<h2 class="centered-h2">It's a draw.<br> Roll again!</h2>`
@@ -364,6 +364,7 @@ function unequalDeck() {
          })
      }
      document.getElementById('createCardBtn2').addEventListener('click',()=>{
+        localStorage.removeItem("uploaded image")
         unequalDeckEl.classList.remove('visible')
         customCardDisplayEl.classList.remove('visible')
         cardCreatorImageEl.classList.add('visible')
@@ -387,6 +388,7 @@ document.getElementById('addToP2DeckBtn').addEventListener('click',()=>{
 })
 document.getElementById('discardBtn').addEventListener('click', ()=>{
     customCardDisplayEl.classList.remove('visible')
+    customCardBtns.classList.remove('visible')
     diceRollEl.classList.add('visible')
 })
 

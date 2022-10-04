@@ -23,7 +23,7 @@ body {
     height: 100vh;
     position: relative;
     font-family: 'Lora', sans-serif;
-    background: linear-gradient(rgba(0, 0, 0, 0.2),rgba(0, 0, 0, 0.2)), url(./images/main.jpg) ;   
+    background: linear-gradient(rgba(0, 0, 0, 0.2),rgba(0, 0, 0, 0.2)), url(./images/main.jpg) center ;   
     
     color: #faf4ea;
     
@@ -160,7 +160,7 @@ h2 {
 .dice-flex {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
     gap: 2rem;
     margin: 2rem 0;  
@@ -243,7 +243,8 @@ img {
 .card-outer1,.card-outer2,.card-outer-custom {
     order: 1;
     background-color: var(--card-text);
-    min-width: 22rem;
+    min-width: 100%;
+    max-width: 100%;
     /*min-width: 100%;*/
     border-radius: 10px;
     display: flex;
@@ -308,7 +309,7 @@ img {
 .card-container {
     flex-direction: row;
     justify-content: flex-start;
-    width: 95%;
+    width: 100%;
     gap: 1rem;
     overflow-x: scroll;
     scroll-snap-type: x mandatory;
