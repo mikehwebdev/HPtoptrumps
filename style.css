@@ -258,7 +258,7 @@ img {
 
 .card-outer-custom {
     width: 95%;
-    min-width: 95%;
+    max-width: 23rem;
 }
 
 .card-inner {
