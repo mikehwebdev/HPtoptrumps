@@ -254,6 +254,7 @@ img {
     box-shadow: rgb(3, 5, 7) 0px 20px 30px -10px;
     transition: all 200ms ease-in-out;
     scroll-snap-align: start;
+    padding: 0;
 }
 
 .card-outer-custom {
