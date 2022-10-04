@@ -619,7 +619,7 @@ span {
         animation: warning 2s infinite;
     }
 }
-/*  the below media query ensures all mobile devices display the inactive card is hidden off screen but is still swipeable*/
+/*  the below media query ensures all mobile devices display the inactive card is hidden off screen but is still swipeable
  @media screen and (min-width:430px) {
     
     .card-outer1, .card-outer2{
@@ -627,7 +627,7 @@ span {
         max-width: 23rem;
     }
 
-} 
+} */
 
 /*Tablet screen size*/
 @media screen and (min-width: 768px) {
