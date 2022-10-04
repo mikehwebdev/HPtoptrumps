@@ -244,8 +244,7 @@ img {
     order: 1;
     background-color: var(--card-text);
     min-width: 100%;
-    max-width: 100%;
-    /*min-width: 100%;*/
+    max-width: 25rem;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -312,7 +311,9 @@ img {
     width: 100%;
     gap: 1rem;
     overflow-x: scroll;
-    scroll-snap-type: x mandatory;
+
+    /* The below interferes with flexbox rendering of the main card container so is out or spcified order
+    scroll-snap-type: x mandatory;*/
     border-radius: 10px;
     scrollbar-width: none;  
 }
