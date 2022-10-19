@@ -1,4 +1,4 @@
-//import {Character} from "../data.js"
+
 const roundWinnerMessageEl = document.getElementById('round-winner-message')
 const gameWinnerMessageEl = document.getElementById('game-winner-message')
 const card1El = document.getElementById('card1')
@@ -7,8 +7,6 @@ const card1Outer = document.querySelector('.card-outer1')
 const card2Outer = document.querySelector('.card-outer2')
 const p1DeckEl = document.getElementById('p1Deck')
 const p2DeckEl = document.getElementById('p2Deck')
-const letsGoBtn = document.getElementById('letsGo')
-const welcomeEl = document.getElementById('welcome')
 const playerDetailsEl = document.getElementById('playerDetails')
 const nextBtn = document.getElementById('nextBtn')
 const containerEl = document.querySelector('.card-container')
@@ -17,14 +15,10 @@ const diceRollEl = document.getElementById('diceRollEl')
 const letsPlayBtn = document.getElementById('letsPlayBtn')
 const dice1El = document.getElementById('dice1El')
 const dice2El = document.getElementById('dice2El')
-const gameWinnerEl = document.getElementById('gameWinner')
-const cardCreatorBtn = document.getElementById('cardCreatorBtn')
 const cardCreatorImageEl = document.getElementById('cardCreator-image')
 const cardCreatorStatsEl = document.getElementById('cardCreator-stats')
-const randomiseBtn = document.getElementById('randomiseBtn')
 const image_input = document.querySelector('#uploadImage')
 const uploadedImageEl = document.getElementById('uploadedImage')
-const ontoStatsBtn = document.getElementById('ontoStats')
 const nameCustomEl = document.getElementById('nameCustom')
 const magicCustomEl = document.getElementById('magicCustom')
 const cunningCustomEl = document.getElementById('cunningCustom')
@@ -32,49 +26,28 @@ const courageCustomEl = document.getElementById('courageCustom')
 const wisdomCustomEl = document.getElementById('wisdomCustom')
 const temperCustomEl = document.getElementById('temperCustom')
 const customCardDisplayEl = document.getElementById('customCardDisplay')
-const takePhotoBtnEl = document.getElementById('takePhotoBtn')
 const customCardQuestionEl =document.getElementById('customCardQuestion')
-const continueBtn = document.getElementById('continueBtn')
 const turnIndicatorEl = document.getElementById('turnIndicator')
 const customCardBtns =document.getElementById('customCardBtns')
 const unequalDeckEl = document.getElementById('unequalDeckEl')
-const p1DeckFlexEl = document.getElementById('p1DeckFlex')
-const p2DeckFlexEl = document.getElementById('p2DeckFlex')
-const p1DeckTextEl = document.getElementById('p1DeckText')
-const p2DeckTextEl = document.getElementById('p2DeckText')
 const gryffindorDeckEl = document.getElementById('gryffindorDeck')
 const slytherinDeckEl = document.getElementById('slytherinDeck')
 const ravenclawDeckEl = document.getElementById('ravenclawDeck')
 const hufflepuffDeckEl = document.getElementById('hufflepuffDeck')
 const deckChoiceContainerEl = document.querySelector('.deck-choice-container')
-const ontoCustomCardsBtn = document.getElementById('ontoCustomCards')
-const innerDiceFlex1h2P1 = document.querySelector('.centered-h2P1')
-const innerDiceFlex1h2P2 = document.querySelector('.centered-h2P2')
 const deckFlexEl = document.querySelector('.deck-flex')
 const mainTitleEl = document.querySelector('.main-title')
 
 function deckManipulator(e){
-    console.log(e.target)
     for (let i=0; i < deckFlexEl.childNodes.length;i++) {
         if (deckFlexEl.childNodes[i].id === e.target.parentElement.offsetParent.id){
-            //console.log(deckFlexEl.childNodes[i].id)
-            console.log(e.target)
-            //console.log(e.target.parentElement.offsetParent.id)
-            //console.log(1)
             deckFlexEl.childNodes[i].classList.add('expanded-deck')
             } else if (deckFlexEl.childNodes[i].id !== e.target.parentElement.offsetParent.id && deckFlexEl.childNodes[i].id!== undefined) {
-                // console.log(deckFlexEl.childNodes[i].id)
-                // console.log(e.target.id)
-                // console.log(2)
             deckFlexEl.childNodes[i].classList.add('shrunk-deck')
-        
     }
 }
 
 }
-
-
-
 gryffindorDeckEl.addEventListener('click', (e)=>{
     let rootEl = document.querySelector(':root')
     deckManipulator(e)
@@ -191,13 +164,12 @@ class Character {
 
     }
 
-letsGoBtn.addEventListener('click', ()=>{
+document.getElementById('letsGo').addEventListener('click', ()=>{
     mainTitleEl.classList.add('hide-header')
     setTimeout(()=>{
         mainTitleEl.style.display = 'none'
     }, 500)
-    //document.querySelector('.main-title').classList.remove('visible')
-    welcomeEl.classList.remove('visible')
+    document.getElementById('welcome').classList.remove('visible')
     playerDetailsEl.classList.add('visible')
 })
     
@@ -208,16 +180,16 @@ nextBtn.addEventListener('click', ()=>{
     deckChoiceContainerEl.classList.add('visible')
 })
 
-ontoCustomCardsBtn.addEventListener('click',()=>{
+document.getElementById('ontoCustomCards').addEventListener('click',()=>{
     deckChoiceContainerEl.classList.remove('visible')
     customCardQuestionEl.classList.add('visible')
 })
 
-continueBtn.addEventListener('click', ()=>{
+document.getElementById('continueBtn').addEventListener('click', ()=>{
     customCardQuestionEl.classList.remove('visible')
     diceRollEl.classList.add('visible')
-    innerDiceFlex1h2P1.innerHTML = localStorage.getItem('p1Name')
-    innerDiceFlex1h2P2.innerHTML = localStorage.getItem('p2Name')
+    document.querySelector('.centered-h2P1').innerHTML = localStorage.getItem('p1Name')
+    document.querySelector('.centered-h2P2').innerHTML = localStorage.getItem('p2Name')
     letsPlayBtn.style.display = 'none'
     //letsPlayBtn.disabled = true
 })
@@ -247,16 +219,13 @@ diceBtn.addEventListener('click', ()=>{
         }
         }
     },200)
-    
     })
-
-
 
 function diceRoll () {
     return Math.floor(Math.random() *6 +1)
 }
 
-randomiseBtn.addEventListener('click', ()=>{
+document.getElementById('randomiseBtn').addEventListener('click', ()=>{
     magicCustomEl.value =  Math.floor(Math.random() *100 +1)
     cunningCustomEl.value =  Math.floor(Math.random() *100 +1)
     courageCustomEl.value =   Math.floor(Math.random() *100 +1)
@@ -425,7 +394,7 @@ function letsPlay(){
     gameStart()
 }
 
-cardCreatorBtn.addEventListener('click', ()=>{
+document.getElementById('cardCreatorBtn').addEventListener('click', ()=>{
     localStorage.removeItem("uploaded image")
     customCardQuestionEl.classList.remove('visible')
     diceRollEl.classList.remove('visible')
@@ -444,14 +413,14 @@ function clearCardStats (){
         image_input.value = ''
 }
 
-ontoStatsBtn.addEventListener('click', ()=>{
+document.getElementById('ontoStats').addEventListener('click', ()=>{
     cardCreatorImageEl.classList.remove('visible')
     cardCreatorStatsEl.classList.add('visible')
 })
 
 function gamelogic(){
     
-    p1DeckTextEl.innerHTML = `<p class="cards-left">${localStorage.getItem('p1Name')}'s deck</p>`
+    document.getElementById('p1DeckText').innerHTML = `<p class="cards-left">${localStorage.getItem('p1Name')}'s deck</p>`
     p1DeckEl.innerHTML = ''
     if (player1Deck.length > 5) {
         p1DeckEl.innerHTML += `<div class="mini-card "></div> x <p class="cards-left">${player1Deck.length}</p>`
@@ -466,7 +435,7 @@ function gamelogic(){
         p1DeckEl.innerHTML += `<div class="mini-card mega-flaming-card"></div>`
     }
 
-    p2DeckTextEl.innerHTML = `<p class="cards-left">${localStorage.getItem('p2Name')}'s deck</p>`
+    document.getElementById('p2DeckText').innerHTML = `<p class="cards-left">${localStorage.getItem('p2Name')}'s deck</p>`
     p2DeckEl.innerHTML = ''
     if (player2Deck.length > 10) {
         p2DeckEl.innerHTML += `<div class="mini-card"></div> x <p class="cards-left">${player2Deck.length}</p>`
@@ -737,10 +706,10 @@ characters.forEach((character)=>{
 
 //clear cached image and card stats when creating the second card
 //make stats container two divs that go from column to row
-//
+// make dice roll element grid 
 //refactoing
 //lets playbtn and unbalanced lets play  and lets play 2btn are a duplication of code - resolve
-
+//732 lines of code before refactoring
 
 
 
