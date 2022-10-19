@@ -667,9 +667,6 @@ function gameFinished (){
     })
 }
 
-
-
-
 const argusFilch = new Character (1,"Argus Filch",0,17,10,40,10,"/images/filch.jpg")
 const severusSnape = new Character (2,"Severus Snape",120,45,80,76,9,"/images/snape.jpg")
 const dracoMalfoy = new Character (3,"Draco Malfoy",60,35,30,28,21,"/images/draco.jpg")
