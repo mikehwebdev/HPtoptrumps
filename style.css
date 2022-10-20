@@ -393,7 +393,7 @@ span {
     margin: 0 0.5rem;
 }
 
-.deck-flex {
+.deck-grid {
     display: grid;
     width: 90%;
     max-width: 20rem;
@@ -456,23 +456,23 @@ span {
     transition: all 2s;
 }    
 
-.gr-translate {
+.gryffindorDeck-translate {
     transform: scale(2, 2) translate(25%, 25%)  rotateY(540deg);
 }
 
-.sl-translate {
+.slytherinDeck-translate {
     transform:scale(2, 2) translate(-25%, 25%) rotateY(540deg);
 }
 
-.rc-translate {
+.ravenclawDeck-translate {
     transform:scale(2, 2) translate(25%, -25%) rotateY(540deg);
 }
 
-.hp-translate {
+.hufflepuffDeck-translate {
     transform:scale(2, 2) translate(-25%, -25%) rotateY(540deg);
 }
 
-.shrunk-deck {
+.shrink-deck {
     transform: scale(0,0);
     transition: all 1s;
     opacity: 0;
@@ -695,9 +695,6 @@ span {
         font-size: 1.5rem;
 }
 
-   /*#uploadedImage {
-    width: 30%;
-   }*/
    .navigation-elements {
     width: 30%;
     font-size: 1.5rem;
@@ -722,7 +719,7 @@ span {
   
   
 
-   .deck-flex {
+   .deck-grid {
     max-width: 60rem;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: none;
@@ -731,20 +728,20 @@ span {
     ;
    }
    
-.gr-translate {
-    transform:translate(152%) rotateY(540deg);
+.gryffindorDeck-translate {
+    transform:translate(150%) rotateY(540deg);
 }
 
-.sl-translate {    
+.slytherinDeck-translate {    
     transform:translate(48%) rotateY(540deg);
 }
 
-.rc-translate {
-    transform:translate(-52%) rotateY(540deg);
+.ravenclawDeck-translate {
+    transform:translate(-54%) rotateY(540deg);
 }
 
-.hp-translate {
-    transform:translate(-152%) rotateY(540deg);
+.hufflepuffDeck-translate {
+    transform:translate(-154%) rotateY(540deg);
 }
 
 }

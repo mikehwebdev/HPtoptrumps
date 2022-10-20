@@ -56,13 +56,13 @@ document.getElementById('letsGo').addEventListener('click', ()=>{
 })
 //The below atkes the entered name values and sets them in localStorage. If left blank the players are simply designated Player 1 and 2
 nextBtn.addEventListener('click', ()=>{
-    player1Name.value? localStorage.setItem('p1Name', player1Name.value) : localStorage.setItem('p1Name', 'Player 1')
-    player2Name.value? localStorage.setItem('p2Name', player2Name.value) : localStorage.setItem('p2Name', 'Player 2')
+    player1Name.value ? localStorage.setItem('p1Name', player1Name.value) : localStorage.setItem('p1Name', 'Player 1')
+    player2Name.value ? localStorage.setItem('p2Name', player2Name.value) : localStorage.setItem('p2Name', 'Player 2')
     playerDetailsEl.classList.remove('visible')
     deckChoiceContainerEl.classList.add('visible')
 })
 //The below is a simple navigation element transition
-document.getElementById('ontoCustomCards').addEventListener('click',()=>{
+document.getElementById('ontoCustomCards').addEventListener('click', ()=>{
     deckChoiceContainerEl.classList.remove('visible')
     customCardQuestionEl.classList.add('visible')
 })
@@ -74,7 +74,6 @@ document.getElementById('cardCreatorBtn').addEventListener('click', ()=>{
     customCardQuestionEl.classList.remove('visible')
     diceRollEl.classList.remove('visible')
     cardCreatorImageEl.classList.add('visible')
-   
 })
 
 
@@ -142,13 +141,7 @@ class Character {
 
     }
 
-
-    
-
-
-
-
-document.getElementById('continueBtn').addEventListener('click', ()=>{
+document.getElementById('skipBtn').addEventListener('click', ()=>{
     customCardQuestionEl.classList.remove('visible')
     diceRollEl.classList.add('visible')
     document.querySelector('.centered-h2P1').innerHTML = localStorage.getItem('p1Name')
@@ -296,7 +289,7 @@ function unequalDeck() {
          })
      }
      document.getElementById('createCardBtn2').addEventListener('click',()=>{
-        localStorage.removeItem("uploaded image")
+        clearCardStats()
         unequalDeckEl.classList.remove('visible')
         customCardDisplayEl.classList.remove('visible')
         cardCreatorImageEl.classList.add('visible')
@@ -356,8 +349,6 @@ function letsPlay(){
     document.body.style.position = 'relative'
     gameStart()
 }
-
-
 
 function clearCardStats (){
         nameCustomEl.value  = ''
