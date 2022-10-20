@@ -1,3 +1,4 @@
+import { deckManipulator } from "./utilities.js"
 
 const roundWinnerMessageEl = document.getElementById('round-winner-message')
 const gameWinnerMessageEl = document.getElementById('game-winner-message')
@@ -30,67 +31,7 @@ const customCardQuestionEl =document.getElementById('customCardQuestion')
 const turnIndicatorEl = document.getElementById('turnIndicator')
 const customCardBtns =document.getElementById('customCardBtns')
 const unequalDeckEl = document.getElementById('unequalDeckEl')
-const gryffindorDeckEl = document.getElementById('gryffindorDeck')
-const slytherinDeckEl = document.getElementById('slytherinDeck')
-const ravenclawDeckEl = document.getElementById('ravenclawDeck')
-const hufflepuffDeckEl = document.getElementById('hufflepuffDeck')
 const deckChoiceContainerEl = document.querySelector('.deck-choice-container')
-const deckFlexEl = document.querySelector('.deck-flex')
-const mainTitleEl = document.querySelector('.main-title')
-
-function deckManipulator(e){
-    for (let i=0; i < deckFlexEl.childNodes.length;i++) {
-        if (deckFlexEl.childNodes[i].id === e.target.parentElement.offsetParent.id){
-            deckFlexEl.childNodes[i].classList.add('expanded-deck')
-            } else if (deckFlexEl.childNodes[i].id !== e.target.parentElement.offsetParent.id && deckFlexEl.childNodes[i].id!== undefined) {
-            deckFlexEl.childNodes[i].classList.add('shrunk-deck')
-    }
-}
-
-}
-gryffindorDeckEl.addEventListener('click', (e)=>{
-    let rootEl = document.querySelector(':root')
-    deckManipulator(e)
-    gryffindorDeckEl.classList.add('gr-translate')
-    rootEl.style.setProperty('--card-text','#AE0001')
-    rootEl.style.setProperty('--card-background-color-1','#D3A625')
-    rootEl.style.setProperty('--card-background-color-2','white')
-    rootEl.style.setProperty('--card-button-color-1','#EEBA30')
-    rootEl.style.setProperty('--card-button-color-2','white')
-})
-
-slytherinDeckEl.addEventListener('click', (e)=>{
-    let rootEl = document.querySelector(':root')
-    deckManipulator(e)
-    slytherinDeckEl.classList.add('sl-translate')
-    rootEl.style.setProperty('--card-text','#000000')
-    rootEl.style.setProperty('--card-background-color-1','#1A472A')
-    rootEl.style.setProperty('--card-background-color-2','white')
-    rootEl.style.setProperty('--card-button-color-1','#AAAAAA')
-    rootEl.style.setProperty('--card-button-color-2','white')
-})
-
-ravenclawDeckEl.addEventListener('click', (e)=>{
-    let rootEl = document.querySelector(':root')
-    deckManipulator(e)
-    ravenclawDeckEl.classList.add('rc-translate')
-    rootEl.style.setProperty('--card-text','#000000')
-    rootEl.style.setProperty('--card-background-color-1','#222F5B')
-    rootEl.style.setProperty('--card-background-color-2','white')
-    rootEl.style.setProperty('--card-button-color-1','#946B2D')
-    rootEl.style.setProperty('--card-button-color-2','white')
-})
-
-hufflepuffDeckEl.addEventListener('click', (e)=>{
-    let rootEl = document.querySelector(':root')
-    deckManipulator(e)
-    hufflepuffDeckEl.classList.add('hp-translate')
-    rootEl.style.setProperty('--card-text','#000000')
-    rootEl.style.setProperty('--card-background-color-1','#60605C')
-    rootEl.style.setProperty('--card-background-color-2','white')
-    rootEl.style.setProperty('--card-button-color-1','#FFED86')
-    rootEl.style.setProperty('--card-button-color-2','white')
-})
 
 let player1Deck = []
 let player2Deck = []
@@ -103,8 +44,42 @@ player1Name.value = ''
 player2Name.value = ''
 
 
-function gameStart(){
-    battleArray.push(player1Deck[0],player2Deck[0])
+//the below starts the game, hides the main title smoothly and removes it from the flow of the document so it doesn't impact screen real estate further in
+document.getElementById('letsGo').addEventListener('click', ()=>{
+    const mainTitleEl = document.querySelector('.main-title')
+    mainTitleEl.classList.add('hide-header')
+    setTimeout(()=>{
+        mainTitleEl.style.display = 'none'
+    }, 500)
+    document.getElementById('welcome').classList.remove('visible')
+    playerDetailsEl.classList.add('visible')
+})
+//The below atkes the entered name values and sets them in localStorage. If left blank the players are simply designated Player 1 and 2
+nextBtn.addEventListener('click', ()=>{
+    player1Name.value? localStorage.setItem('p1Name', player1Name.value) : localStorage.setItem('p1Name', 'Player 1')
+    player2Name.value? localStorage.setItem('p2Name', player2Name.value) : localStorage.setItem('p2Name', 'Player 2')
+    playerDetailsEl.classList.remove('visible')
+    deckChoiceContainerEl.classList.add('visible')
+})
+//The below is a simple navigation element transition
+document.getElementById('ontoCustomCards').addEventListener('click',()=>{
+    deckChoiceContainerEl.classList.remove('visible')
+    customCardQuestionEl.classList.add('visible')
+})
+
+// in the below if user chooses to create a card it clears any previously uploaded image from localStorage and calls clearCardStats() to clear any previously stored data. This is done because this function is also called if the user creates a second custom card.
+document.getElementById('cardCreatorBtn').addEventListener('click', ()=>{
+    localStorage.removeItem("uploaded image")
+    clearCardStats()
+    customCardQuestionEl.classList.remove('visible')
+    diceRollEl.classList.remove('visible')
+    cardCreatorImageEl.classList.add('visible')
+   
+})
+
+
+function gameStart() {
+    battleArray.push(player1Deck[0], player2Deck[0])
     player1Deck.shift()
     player2Deck.shift()
     if (currentTurn) {
@@ -114,20 +89,23 @@ function gameStart(){
         card1Outer.classList.add('active')
         card1Outer.classList.add('player-turn')
         card2Outer.classList.add('blurred')
-        card2Outer.classList.add('disabled-controls') 
+        card2Outer.classList.add('disabled-controls')
         gamelogic()
     } else {
-    battleArray[1].cardRenderer()
-    battleArray[0].cardRenderer()  
-    turnCalculator(card2El)     
-    card2Outer.classList.add('active') 
-    card2Outer.classList.add('player-turn')
-    card1Outer.classList.add('blurred')
-    card1Outer.classList.add('disabled-controls')    
-    gamelogic()
+        battleArray[1].cardRenderer()
+        battleArray[0].cardRenderer()
+        turnCalculator(card2El)
+        card2Outer.classList.add('active')
+        card2Outer.classList.add('player-turn')
+        card1Outer.classList.add('blurred')
+        card1Outer.classList.add('disabled-controls')
+        gamelogic()
+    }
 }
 
-}
+
+document.querySelector('.deck-grid').addEventListener('click', deckManipulator)
+
 
 class Character {
     constructor(ref, characterName, magic, cunning, courage, wisdom, temper, image) {
@@ -164,26 +142,11 @@ class Character {
 
     }
 
-document.getElementById('letsGo').addEventListener('click', ()=>{
-    mainTitleEl.classList.add('hide-header')
-    setTimeout(()=>{
-        mainTitleEl.style.display = 'none'
-    }, 500)
-    document.getElementById('welcome').classList.remove('visible')
-    playerDetailsEl.classList.add('visible')
-})
-    
-nextBtn.addEventListener('click', ()=>{
-    player1Name.value? localStorage.setItem('p1Name', player1Name.value) : localStorage.setItem('p1Name', 'Player 1')
-    player2Name.value? localStorage.setItem('p2Name', player2Name.value) : localStorage.setItem('p2Name', 'Player 2')
-    playerDetailsEl.classList.remove('visible')
-    deckChoiceContainerEl.classList.add('visible')
-})
 
-document.getElementById('ontoCustomCards').addEventListener('click',()=>{
-    deckChoiceContainerEl.classList.remove('visible')
-    customCardQuestionEl.classList.add('visible')
-})
+    
+
+
+
 
 document.getElementById('continueBtn').addEventListener('click', ()=>{
     customCardQuestionEl.classList.remove('visible')
@@ -394,13 +357,7 @@ function letsPlay(){
     gameStart()
 }
 
-document.getElementById('cardCreatorBtn').addEventListener('click', ()=>{
-    localStorage.removeItem("uploaded image")
-    customCardQuestionEl.classList.remove('visible')
-    diceRollEl.classList.remove('visible')
-    cardCreatorImageEl.classList.add('visible')
-   clearCardStats()
-})
+
 
 function clearCardStats (){
         nameCustomEl.value  = ''
