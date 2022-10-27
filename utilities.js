@@ -1,10 +1,4 @@
 
-let player1Deck = []
-let player2Deck = []
-let battleArray = []
-
-
-
 
 //deckManipulator() makes a nodeList of all elements using a querySelectorAll. We can then iterate over that as we do any array using a forEach where we can apply classes to make non-clicked decks vanish and the clicked deck grow larger and make itself obvious to the user as the confirmed deck.
 
@@ -48,6 +42,22 @@ function deckChoiceSetter(id){
         rootEl.style.setProperty('--card-button-color-2','white')
     }
 }
+//returns a value between 1 and 6 to represent dice rolls
+function diceRoll () {
+    return Math.floor(Math.random() *6 +1)
+}
 
+//While creating a custom the below function helps manage error message and calls to action for the user
+function errorMessageSetter (stat) {
+    stat.classList.add('error')
+    stat.classList.add('boing')
+    createCardBtn.classList.toggle('boing')
+    setTimeout(()=>{
+        stat.classList.remove('boing')
+        stat.classList.remove('error')
+        createCardBtn.innerHTML = 'Create my card'
+        createCardBtn.classList.toggle('boing')
+    },2500)
+}
 
-export {deckManipulator}
+export {deckManipulator, diceRoll, errorMessageSetter}

@@ -86,19 +86,19 @@
                 <input type="text" id="nameCustom">
                 
                 <label for="magicCustom">Magic</label>
-                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="magicCustom">
+                <input type="text" maxlength="3" onkeypress="return /[0-9]/i.test(event.key)" id="magicCustom">
 
                 <label for="cunning">Cunning</label>
-                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="cunningCustom">
+                <input type="text" maxlength="3" onkeypress="return /[0-9]/i.test(event.key)" id="cunningCustom">
 
                 <label for="courage">Courage</label>
-                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="courageCustom">
+                <input type="text" maxlength="3" onkeypress="return /[0-9]/i.test(event.key)" id="courageCustom">
 
                 <label for="wisdom">Wisdom</label>
-                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="wisdomCustom">
+                <input type="text" maxlength="3" onkeypress="return /[0-9]/i.test(event.key)" id="wisdomCustom">
 
                 <label for="temper">Temper</label>
-                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="temperCustom">
+                <input type="text" maxlength="3" onkeypress="return /[0-9]/i.test(event.key)" id="temperCustom">
                 <button id="randomiseBtn">Randomise stats</button>
                 <button id="createCardBtn">Create my card</button>
                 <div id="missingStatsAlert"></div>
@@ -118,7 +118,7 @@
                     </div>
                 </div>
                 <div id="turnIndicator"></div>
-            <div class="card-container blurred">
+            <div class="card-container">
                 <div class="card-outer1">
                     <div class="card-inner" id="card1"></div>
                 </div>

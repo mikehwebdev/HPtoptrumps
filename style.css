@@ -587,13 +587,7 @@ span {
     100% {scale:1}  
 }
 
-/* to be added to added elements i.e card stats*/
-@keyframes error-flash {
-    0% {box-shadow: 10px 10px 50px;}
-    50% {box-shadow: 5px 5px 25px;}
-    100% {box-shadow: 0px 0px 0px;}
-    
-}
+
 /*
 @media screen and (max-width: 767px) and (orientation:landscape)
 {
@@ -675,9 +669,7 @@ span {
     .centered-h2 {
         font-size: 2.5rem;
     }
-    .alignable {
-        transition: none;
-    }
+   
     #turnIndicator {
         transition: all 1s;
         
@@ -700,7 +692,7 @@ span {
     font-size: 1.5rem;
     text-align: center;
    }
-   .active {
+  .active {
     order: 1;
    }
 
@@ -757,10 +749,7 @@ span {
     transition: all ease-in-out 500ms;
 }
 
-.alignable {
-    margin-top: 0;
-    font-size: 2.2rem;
-}
+
 
 .card-outer1, .card-outer2, .card-outer-custom {
     min-width: 15rem;

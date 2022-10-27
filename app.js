@@ -1,4 +1,4 @@
-import { deckManipulator } from "./utilities.js"
+import { deckManipulator, diceRoll, errorMessageSetter} from "./utilities.js"
 
 const roundWinnerMessageEl = document.getElementById('round-winner-message')
 const gameWinnerMessageEl = document.getElementById('game-winner-message')
@@ -10,7 +10,7 @@ const p1DeckEl = document.getElementById('p1Deck')
 const p2DeckEl = document.getElementById('p2Deck')
 const playerDetailsEl = document.getElementById('playerDetails')
 const nextBtn = document.getElementById('nextBtn')
-const containerEl = document.querySelector('.card-container')
+//const containerEl = document.querySelector('.card-container')
 const diceBtn = document.getElementById('diceBtn')
 const diceRollEl = document.getElementById('diceRollEl')
 const letsPlayBtn = document.getElementById('letsPlayBtn')
@@ -42,9 +42,10 @@ let winner = ''
 let gameWinner = ''
 player1Name.value = ''
 player2Name.value = ''
+let cardStats = [ magicCustomEl, cunningCustomEl, courageCustomEl, wisdomCustomEl,temperCustomEl, nameCustomEl]
 
 
-//the below starts the game, hides the main title smoothly and removes it from the flow of the document so it doesn't impact screen real estate further in
+//This code hides the main title smoothly and removes it from the flow of the document so it doesn't impact screen real estate further in
 document.getElementById('letsGo').addEventListener('click', ()=>{
     const mainTitleEl = document.querySelector('.main-title')
     mainTitleEl.classList.add('hide-header')
@@ -54,20 +55,26 @@ document.getElementById('letsGo').addEventListener('click', ()=>{
     document.getElementById('welcome').classList.remove('visible')
     playerDetailsEl.classList.add('visible')
 })
-//The below atkes the entered name values and sets them in localStorage. If left blank the players are simply designated Player 1 and 2
+
+
+//This takes the entered name values and sets them in localStorage. If left blank the players are simply designated Player 1 and 2
 nextBtn.addEventListener('click', ()=>{
     player1Name.value ? localStorage.setItem('p1Name', player1Name.value) : localStorage.setItem('p1Name', 'Player 1')
     player2Name.value ? localStorage.setItem('p2Name', player2Name.value) : localStorage.setItem('p2Name', 'Player 2')
     playerDetailsEl.classList.remove('visible')
     deckChoiceContainerEl.classList.add('visible')
 })
-//The below is a simple navigation element transition
+
+//This event listener calls deckManipulator which chooses the game deck(HP house) and sets off an animation to add a bit of whizz to the app
+document.querySelector('.deck-grid').addEventListener('click', deckManipulator)
+
+//This a navigation element transition
 document.getElementById('ontoCustomCards').addEventListener('click', ()=>{
     deckChoiceContainerEl.classList.remove('visible')
     customCardQuestionEl.classList.add('visible')
 })
 
-// in the below if user chooses to create a card it clears any previously uploaded image from localStorage and calls clearCardStats() to clear any previously stored data. This is done because this function is also called if the user creates a second custom card.
+// in the below if user chooses to create a card it clears any previously uploaded image from localStorage and calls clearCardStats() to clear any previously stored card stats. This is done because this function is also called if the user creates a second custom card saving ther need for a second function.
 document.getElementById('cardCreatorBtn').addEventListener('click', ()=>{
     localStorage.removeItem("uploaded image")
     clearCardStats()
@@ -76,34 +83,85 @@ document.getElementById('cardCreatorBtn').addEventListener('click', ()=>{
     cardCreatorImageEl.classList.add('visible')
 })
 
+//The below input listens for a "change" i.e when the selected file is uploaded. the FileReader allows us to "read! data submitted by the users device and marks the result as uploaded_image. We can then set the innerHTML with that variable and set it in localStorage to access at a later date i.e when we create the custom card.
+image_input.addEventListener("change", function() {
+    const reader = new FileReader()
+    reader.addEventListener("load", () => {
+      const uploaded_image = reader.result
+      uploadedImageEl.innerHTML = `<img src="${uploaded_image}">`
+      localStorage.setItem("uploaded image",uploaded_image)
+    })
+    reader.readAsDataURL(this.files[0])    
+  })
 
+//The below is a navigation element transition
+document.getElementById('ontoStats').addEventListener('click', ()=>{
+    cardCreatorImageEl.classList.remove('visible')
+    cardCreatorStatsEl.classList.add('visible')
+})
+
+//The below forEach applies a random value between 1-100 to our custom card stats - except for the name field which it leaves blank
+document.getElementById('randomiseBtn').addEventListener('click', ()=>{
+    cardStats.forEach((stat)=>{
+        if (stat != nameCustomEl)
+        stat.value = Math.floor(Math.random() *100 +1)
+    })
+})
+
+//This button simply starts the game by calling letsPlay()
+letsPlayBtn.addEventListener('click', ()=>{
+    letsPlay()
+ })
+ 
+ 
+ //This function removes the dice roll section, makes the card container visible, establishes which player won the dice roll and then sets the currentTurn boolean to the approriate setting (true for player 1's turn, false for player2). We use this boolean as an ongoing record of whose turn it is through the game.
+ function letsPlay(){
+     diceRollEl.classList.remove('visible')
+     document.querySelector('.card-container').classList.add('visible')
+     if (dice1El.innerHTML > dice2El.innerHTML) {
+         currentTurn = true
+     } else {
+         currentTurn = false
+     }
+     gameStart()
+ }
+ 
+
+//This function starts the actual game
 function gameStart() {
+    //This pushes the first card from each player deck into a battleArray
     battleArray.push(player1Deck[0], player2Deck[0])
+    //We then shift() those cards from each player deck as if they have moved into the battle
     player1Deck.shift()
     player2Deck.shift()
+    //If currentTurn is true (Player 1's turn) we render the battle array in the correct order calling cardRenderer()
     if (currentTurn) {
         battleArray[0].cardRenderer()
         battleArray[1].cardRenderer()
-        turnCalculator(card1El)
+    //turnIndicator uses the previous round winner (or player taking the first turn here) to to display the turn indicator in game
+        turnIndicator(card1El)
+        //the below makes the active player visible and orders the cards correctly using the flexbox property, and also blurs the non-active card and disables its controls
         card1Outer.classList.add('active')
         card1Outer.classList.add('player-turn')
         card2Outer.classList.add('blurred')
         card2Outer.classList.add('disabled-controls')
-        gamelogic()
+        //cardsRemaining() and battleLogic() have full notes below
+        cardsRemaining()
+        battleLogic()
     } else {
         battleArray[1].cardRenderer()
         battleArray[0].cardRenderer()
-        turnCalculator(card2El)
+        turnIndicator(card2El)
         card2Outer.classList.add('active')
         card2Outer.classList.add('player-turn')
         card1Outer.classList.add('blurred')
         card1Outer.classList.add('disabled-controls')
-        gamelogic()
+        cardsRemaining()
+        battleLogic()
     }
 }
 
 
-document.querySelector('.deck-grid').addEventListener('click', deckManipulator)
 
 
 class Character {
@@ -147,7 +205,6 @@ document.getElementById('skipBtn').addEventListener('click', ()=>{
     document.querySelector('.centered-h2P1').innerHTML = localStorage.getItem('p1Name')
     document.querySelector('.centered-h2P2').innerHTML = localStorage.getItem('p2Name')
     letsPlayBtn.style.display = 'none'
-    //letsPlayBtn.disabled = true
 })
 
 diceBtn.addEventListener('click', ()=>{
@@ -176,45 +233,34 @@ diceBtn.addEventListener('click', ()=>{
         }
     },200)
     })
+    
 
-function diceRoll () {
-    return Math.floor(Math.random() *6 +1)
-}
 
-document.getElementById('randomiseBtn').addEventListener('click', ()=>{
-    magicCustomEl.value =  Math.floor(Math.random() *100 +1)
-    cunningCustomEl.value =  Math.floor(Math.random() *100 +1)
-    courageCustomEl.value =   Math.floor(Math.random() *100 +1)
-    wisdomCustomEl.value =   Math.floor(Math.random() *100 +1)
-    temperCustomEl.value =   Math.floor(Math.random() *100 +1)
-})
+//the below event listener checks if all input fields have an appropriate value - if they do it triggers cardCreator()
 
 createCardBtn.addEventListener('click', ()=>{
-    if (nameCustomEl.value && magicCustomEl.value && cunningCustomEl.value && courageCustomEl.value && wisdomCustomEl.value && temperCustomEl.value) {
+    if (cardStats.every(stat => stat.value && stat.value< 101)) {
     cardCreator()
-    
+
+// if not we create a variable containing all input stats and cycles through them and adds an error class to the element to highlight it to the user (animation and colouring) and changes the text to instruct the user which removes itself after 2.5 seconds and resets back to the navigation message. Note all elements are set to text and a regular expression is set against the html element which only allows characters 0-9
 } else {
     let customCardStats = document.getElementById('cardCreator-stats').childNodes
     for (const stat of customCardStats) {
-        
         if (stat.value === '' && stat.type === 'text') {
-            console.log(stat.value)
-            stat.classList.add('error')
-            stat.classList.add('boing')
-            setTimeout(()=>{
-                stat.classList.remove('boing')
-                stat.classList.remove('error')
-            },2500)
+            errorMessageSetter(stat)
+            createCardBtn.innerHTML = `Please finish inputting your custom card details above.`
+            return
+        }
+        else if (stat.value > 100){
+            errorMessageSetter(stat)
+            createCardBtn.innerHTML = `Please enter a number 100 or below.`
+            return
         }
     }
-        createCardBtn.classList.toggle('boing')
-        createCardBtn.innerHTML = `Please finish inputting your custom card details above.`
-        setTimeout(()=>{
-            createCardBtn.innerHTML = 'Create my card'
-            createCardBtn.classList.toggle('boing')
-        }, 2500)
     }
 })
+
+
 
 function cardCreator (){
     let playerCustomCard = new Character (98, `${nameCustomEl.value}`,`${magicCustomEl.value}`,`${cunningCustomEl.value}`,`${courageCustomEl.value}`,`${wisdomCustomEl.value}`,`${temperCustomEl.value}`, `${localStorage.getItem("uploaded image")}` )
@@ -320,98 +366,84 @@ document.getElementById('discardBtn').addEventListener('click', ()=>{
 
 
 }
-image_input.addEventListener("change", function() {
-    const reader = new FileReader()
-    reader.addEventListener("load", () => {
-      const uploaded_image = reader.result
-      
-      uploadedImageEl.innerHTML = `<img src="${uploaded_image}">`
-      localStorage.setItem("uploaded image",uploaded_image)
-    })
-    reader.readAsDataURL(this.files[0])    
-  })
-
-letsPlayBtn.addEventListener('click', ()=>{
-   letsPlay()
-})
-
-
-
-function letsPlay(){
-    containerEl.classList.add('visible')
-    diceRollEl.classList.remove('visible')
-    if (dice1El.innerHTML > dice2El.innerHTML) {
-        currentTurn = true
-    } else {
-        currentTurn = false
-    }
-    containerEl.classList.remove('blurred')
-    document.body.style.position = 'relative'
-    gameStart()
-}
-
+//clearCardStats() loops through the array of custom card inputs and clears them ready for a new card to be created
 function clearCardStats (){
-        nameCustomEl.value  = ''
-        magicCustomEl.value = ''
-        cunningCustomEl.value =''
-        courageCustomEl.value = ''
-        wisdomCustomEl.value = ''
-        temperCustomEl.value =''
+    cardStats.forEach((stat)=>{
+        stat.value = ''
+    })
         uploadedImageEl.innerHTML = ''
         image_input.value = ''
 }
 
-document.getElementById('ontoStats').addEventListener('click', ()=>{
-    cardCreatorImageEl.classList.remove('visible')
-    cardCreatorStatsEl.classList.add('visible')
-})
-
-function gamelogic(){
-    
-    document.getElementById('p1DeckText').innerHTML = `<p class="cards-left">${localStorage.getItem('p1Name')}'s deck</p>`
+//cardsRemaining populates the onscreen player deck info with cards remaining with contextual animations
+function cardsRemaining() {
+    document.getElementById('p1DeckText').innerHTML = 
+    //This displays the player name
+    `<p class="cards-left">${localStorage.getItem('p1Name')}'s deck</p>`
     p1DeckEl.innerHTML = ''
+    //the below provides contextual info on the player decks. If more than five it displays a mini card and a x12 for a deck of 12 cards
     if (player1Deck.length > 5) {
-        p1DeckEl.innerHTML += `<div class="mini-card "></div> x <p class="cards-left">${player1Deck.length}</p>`
+        p1DeckEl.innerHTML = `<div class="mini-card "></div> x <p class="cards-left">${player1Deck.length}</p>`
+        // if more than 3 it displays individual mini cards
     } else if (player1Deck.length > 3) {
-    player1Deck.forEach(()=>{
-        p1DeckEl.innerHTML += `<div class="mini-card"></div>`
-    } )} else if (player1Deck.length > 1) {
-        player1Deck.forEach(()=>{
+        player1Deck.forEach(() => {
+            p1DeckEl.innerHTML += `<div class="mini-card"></div>`
+        })
+        //if more than one card it displays an urgent animation
+    } else if (player1Deck.length > 1) {
+        player1Deck.forEach(() => {
             p1DeckEl.innerHTML += `<div class="mini-card flaming-card"></div>`
-        } )
+        })
+        //if exactly one card is left a more urgent animation is applied
     } else if (player1Deck.length === 1) {
         p1DeckEl.innerHTML += `<div class="mini-card mega-flaming-card"></div>`
     }
-
-    document.getElementById('p2DeckText').innerHTML = `<p class="cards-left">${localStorage.getItem('p2Name')}'s deck</p>`
+    //The below is a mirror for the above but for player 2's deck   
+    document.getElementById('p2DeckText').innerHTML = 
+    `<p class="cards-left">${localStorage.getItem('p2Name')}'s deck</p>`
     p2DeckEl.innerHTML = ''
-    if (player2Deck.length > 10) {
-        p2DeckEl.innerHTML += `<div class="mini-card"></div> x <p class="cards-left">${player2Deck.length}</p>`
-    } else {
-    player2Deck.forEach(()=>{
-        p2DeckEl.innerHTML += `<div class="mini-card"></div>`
-    })}
+    if (player2Deck.length > 5) {
+        p2DeckEl.innerHTML = `<div class="mini-card "></div> x <p class="cards-left">${player2Deck.length}</p>`
+    } else if (player2Deck.length > 3) {
+        player2Deck.forEach(() => {
+            p2DeckEl.innerHTML += `<div class="mini-card"></div>`
+        })
+    } else if (player2Deck.length > 1) {
+        player2Deck.forEach(() => {
+            p2DeckEl.innerHTML += `<div class="mini-card flaming-card"></div>`
+        })
+    } else if (player2Deck.length === 1) {
+        p2DeckEl.innerHTML += `<div class="mini-card mega-flaming-card"></div>`
+    }
+}
 
-    
-    
+//battleLogic() compares the chosen attribute to determine the round winner/ 
+function battleLogic(){
+    //buttonContainers is using querySelectorAll to create a node list which works as an array here
     const buttonContainers = document.querySelectorAll('.button-container')
         buttonContainers.forEach((buttonContainer, index)=> {  
-                   
+                   //we forEach over every both button containers and pass the index as a parameter
             buttonContainer.addEventListener('click',(e)=>{  
+                //we dynamically add an event listener and pass the event information as e in the initial if statement index === 0 will mean it's player ones turn we do this as players can have more than one turn in a row if they win and we have disabled the non-active player's card using CSS(pointer-events:none)
             if (index === 0) {
+                //this compares the value of the chosen attribute (i.e Magic 65) and the if statements control the user journey
                 if (battleArray[0][e.target.id] > battleArray[1][e.target.id] ) {
-                    
+                    //this variable is a record of the winner for other functions to use
                     winner = card1El
+                    //highlights is a nodelist of all elements that share the same class (i.e one in each button container) - I use the e.target.id to be the string in the querySelectorAll so they match
                     let highlights = document.querySelectorAll(`.${e.target.id}`)
+                    //highlights is passed to choiceHighlighter() which adds a class that highlights the choice in each button container
                     choiceHighlighter(highlights)
-                    roundWinnerPlayer1()
+                    //compareStats simply disables pointer events on both cards and un blurs them to see how the stats compare
+                    compareStats()
+
                     displayRoundWinner()
                         } else {
                             
                     winner = card2El
                     let highlights = document.querySelectorAll(`.${e.target.id}`)
                     choiceHighlighter(highlights)
-                    roundWinnerPlayer2()
+                    compareStats()
                     displayRoundWinner()
                         }
                         } else {
@@ -419,53 +451,43 @@ function gamelogic(){
                             winner = card2El          
                             let highlights = document.querySelectorAll(`.${e.target.id}`)            
                             choiceHighlighter(highlights)
-                            roundWinnerPlayer2()
+                            compareStats()
                             displayRoundWinner()
                         } else {
                             winner = card1El
                             let highlights = document.querySelectorAll(`.${e.target.id}`)
                             choiceHighlighter(highlights)
-                            roundWinnerPlayer1()
+                            compareStats()
                             displayRoundWinner()
                 }
             }})
         } )}
-
-function roundWinnerPlayer1(){
-    
-    card1Outer.classList.remove('blurred')
-    card2Outer.classList.remove('blurred')
-    card1Outer.classList.add('disabled-controls')
-    card2Outer.classList.add('disabled-controls')
-    
+//removes blur from both cards and disables controls as there is no player action to take
+function compareStats(){
+        card1Outer.classList.remove('blurred')
+        card2Outer.classList.remove('blurred')
+        card1Outer.classList.add('disabled-controls')
+        card2Outer.classList.add('disabled-controls')
 }   
 
-function roundWinnerPlayer2(){
-    card1Outer.classList.remove('blurred')
-    card2Outer.classList.remove('blurred')
-    card1Outer.classList.add('disabled-controls')
-    card2Outer.classList.add('disabled-controls')
-    
-}
-
-    function turnCalculator (winner){
+//turnIndicator takes the winner and ensures the appropriate class is applied so the floating "Player Turn" message floats over the correct card(complete with custom name where entered)
+    function turnIndicator (winner){
         turnIndicatorEl.classList.add('visible')
         turnIndicatorEl.innerHTML = `<h2 class="centered-h2 alignable"> ${winner === card1El? localStorage.getItem('p1Name') :localStorage.getItem('p2Name') }'s turn</h2>`
-        const alignableH2 =  document.querySelector('.alignable')
         if (winner === card1El) {
             turnIndicatorEl.classList.remove('ch2-right-aligned')
             turnIndicatorEl.classList.add('ch2-left-aligned')
-        } else if (winner === card2El) {
+        } else  {
             turnIndicatorEl.classList.add('ch2-right-aligned')
             turnIndicatorEl.classList.remove('ch2-left-aligned')
         }
     }
-
+//highlights the attribute chosen by the player during battle and highilights it and the other players equivalent stat for comparison
     function choiceHighlighter(highlights){
                             highlights[0].classList.add('choice')
                             highlights[1].classList.add('choice')
     }
-
+//roundStatusCheck() is invoked during the round complete function to establish if this is the last round of the game. If it is it invokes gameFinished
    function roundStatusCheck(){
     if (player1Deck.length === 0) {
         gameWinner = localStorage.getItem('p2Name')
@@ -480,6 +502,8 @@ function roundWinnerPlayer2(){
     }
    } 
 
+
+   //roundComplete() uses the winner variable as context, pushes the battle array contents to the winners array, runs roundStatusCheck() to check if that was the last round in the overall game and if not blanks the battleArray, pushes the next card from each player array for the next round and shifts out that card from the player decks
 function roundComplete () {
     if (winner === card1El) {
         player1Deck.push(battleArray[1],battleArray[0])
@@ -495,61 +519,61 @@ function roundComplete () {
                 battleArray.push(player1Deck[0],player2Deck[0])
                 player1Deck.shift()
                 player2Deck.shift()
-            }
-                
-            }
+            }}
+            
+// squisher functions are to and and remove classes on card elements to communicate active round info to the user
+function card1Squisher() {
+    card1Outer.classList.remove('player-turn')
+    card2Outer.classList.add('shifted') 
+    document.getElementById('buttonContainercard1').classList.toggle('squished')
+    document.getElementById('buttonContainercard2').classList.toggle('squished')
+    setTimeout(()=>{document.getElementById('buttonContainercard1').classList.toggle('squished')},3000) 
+    setTimeout(()=>{document.getElementById('buttonContainercard2').classList.toggle('squished')
+    card2Outer.classList.remove('shifted') },3000) 
+}
+
+// squisher functions are to and and remove classes on card elements to communicate active round info to the user
+function card2Squisher (){
+    card2Outer.classList.remove('player-turn')
+    card1Outer.classList.add('shifted') 
+    document.getElementById('buttonContainercard1').classList.toggle('squished')
+    document.getElementById('buttonContainercard2').classList.toggle('squished')
+    setTimeout(()=>{document.getElementById('buttonContainercard1').classList.toggle('squished')
+    card1Outer.classList.remove('shifted') },3000) 
+    setTimeout(()=>{document.getElementById('buttonContainercard2').classList.toggle('squished')},3000) 
+}
+
 function displayRoundWinner() {
+    //first we make the user message visible and disable the controls for 3 seconds to stop the user triggering the next round/event listener to early
     roundWinnerMessageEl.classList.add('visible')
     roundWinnerMessageEl.classList.add('disabled-controls')
     setTimeout(()=>{roundWinnerMessageEl.classList.remove('disabled-controls')
     roundWinnerMessageEl.innerHTML = "Next round"
 },3000)
+    //using the winner variable for context, the if statement applies the appropriate classes to shift the non-active player onto the screen, and also "squishes" the button container so that all the attribute details are visible on one mobile sized screen - I adjust the CSS on larger screen sizes to stop this action from happening as it isn't needed
     if (winner === card1El ) {
         if (card1Outer.classList.contains('active')) {
-            card1Outer.classList.remove('player-turn')
-            card2Outer.classList.add('shifted') 
-            document.getElementById('buttonContainercard1').classList.toggle('squished')
-            document.getElementById('buttonContainercard2').classList.toggle('squished')
-            setTimeout(()=>{document.getElementById('buttonContainercard1').classList.toggle('squished')},3000) 
-            setTimeout(()=>{document.getElementById('buttonContainercard2').classList.toggle('squished')
-            card2Outer.classList.remove('shifted') },3000) 
-            
+            card1Squisher()
         } else {
-            card2Outer.classList.remove('player-turn')
-            card1Outer.classList.add('shifted') 
-            document.getElementById('buttonContainercard1').classList.toggle('squished')
-            document.getElementById('buttonContainercard2').classList.toggle('squished')
-            setTimeout(()=>{document.getElementById('buttonContainercard1').classList.toggle('squished')
-            card1Outer.classList.remove('shifted') },3000) 
-            setTimeout(()=>{document.getElementById('buttonContainercard2').classList.toggle('squished')},3000) 
-            
+            card2Squisher()            
         }
+        //player 1 beats player 2 message
         roundWinnerMessageEl.innerHTML = `<p>
         ${battleArray[0].characterName} beats ${battleArray[1].characterName}</p>`
     } else {
         if (card2Outer.classList.contains('active')) {
-            card1Outer.classList.add('shifted') 
-            card2Outer.classList.remove('player-turn') 
-            document.getElementById('buttonContainercard1').classList.toggle('squished')
-            document.getElementById('buttonContainercard2').classList.toggle('squished') 
-            setTimeout(()=>{document.getElementById('buttonContainercard1').classList.toggle('squished')
-            card1Outer.classList.remove('shifted') },3000) 
-            setTimeout(()=>{document.getElementById('buttonContainercard2').classList.toggle('squished')},3000) 
-             
+            card2Squisher()
         } else {
             card2Outer.classList.add('shifted')   
-            card1Outer.classList.remove('player-turn')
-            document.getElementById('buttonContainercard1').classList.toggle('squished')
-            document.getElementById('buttonContainercard2').classList.toggle('squished')
-            setTimeout(()=>{document.getElementById('buttonContainercard1').classList.toggle('squished')},3000) 
-            setTimeout(()=>{document.getElementById('buttonContainercard2').classList.toggle('squished')
-            card2Outer.classList.remove('shifted')  },3000) 
-             
+            card1Squisher() 
         }
         roundWinnerMessageEl.innerHTML = `
         ${battleArray[1].characterName} beats ${battleArray[0].characterName}`
     }
+    //roundComplete() takes care of moving cards between arrays and checking the games overall status
     roundComplete()
+
+    //once the user reads the message they can click to continue to remove the message and all classes so they cards are unun-squished and shiftedback to their usual positions
     roundWinnerMessageEl.addEventListener('click', () =>{
         roundWinnerMessageEl.classList.remove('visible')
         card1Outer.classList.remove('shifted')
@@ -560,36 +584,40 @@ function displayRoundWinner() {
   if (currentTurn) {
         battleArray[0].cardRenderer()
         battleArray[1].cardRenderer()
-        turnCalculator(winner)
+        turnIndicator(winner)
+        afterRoundClassSetter(winner)
   } else {
-    
         battleArray[1].cardRenderer()
         battleArray[0].cardRenderer() 
-        turnCalculator(winner)       
+        turnIndicator(winner)       
+        afterRoundClassSetter(winner)
         }
-    
-        if (winner === card1El) {
-            card1Outer.classList.add('active')
-            card1Outer.classList.add('player-turn')     
-            card2Outer.classList.remove('active')     
-            card2Outer.classList.remove('player-turn')     
-            card2Outer.classList.remove('shifted')
-            card2Outer.classList.add('blurred') 
-            card1Outer.classList.remove('disabled-controls')
-            card2Outer.classList.add('disabled-controls')
-        } else if (winner === card2El){
-            card2Outer.classList.add('active')
-            card2Outer.classList.add('player-turn')     
-            card1Outer.classList.remove('active')   
-            card1Outer.classList.remove('player-turn')     
-            card2Outer.classList.remove('shifted')
-            card1Outer.classList.add('blurred') 
-            card2Outer.classList.remove('disabled-controls')
-            card1Outer.classList.add('disabled-controls')
-            }
-        
-        gamelogic()
+
+        cardsRemaining()
+        battleLogic()
 })
+}
+//this applies all classes for displaying in game cards in the correct position, off-player card being blurred out and with controls disabled
+function afterRoundClassSetter(winner){
+    if (winner === card1El) {
+        card1Outer.classList.add('active')
+        card1Outer.classList.add('player-turn')     
+        card2Outer.classList.remove('active')     
+        card2Outer.classList.remove('player-turn')     
+        card2Outer.classList.remove('shifted')
+        card2Outer.classList.add('blurred') 
+        card1Outer.classList.remove('disabled-controls')
+        card2Outer.classList.add('disabled-controls')
+    } else if (winner === card2El){
+        card2Outer.classList.add('active')
+        card2Outer.classList.add('player-turn')     
+        card1Outer.classList.remove('active')   
+        card1Outer.classList.remove('player-turn')     
+        card2Outer.classList.remove('shifted')
+        card1Outer.classList.add('blurred') 
+        card2Outer.classList.remove('disabled-controls')
+        card1Outer.classList.add('disabled-controls')
+        }
 }
 
 function gameFinished (){
@@ -649,7 +677,7 @@ characters.forEach((character)=>{
     //character.ref === 1? player2Deck.push(character) : player1Deck.push(character);
 })
 
-//clear cached image and card stats when creating the second card
+
 //make stats container two divs that go from column to row
 // make dice roll element grid 
 //refactoing
