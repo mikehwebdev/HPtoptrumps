@@ -47,7 +47,7 @@ function diceRoll () {
     return Math.floor(Math.random() *6 +1)
 }
 
-//While creating a custom the below function helps manage error message and calls to action for the user
+//While creating a custom card the below function helps manage error message and calls to action for the user
 function errorMessageSetter (stat) {
     stat.classList.add('error')
     stat.classList.add('boing')

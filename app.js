@@ -1,4 +1,5 @@
 import { deckManipulator, diceRoll, errorMessageSetter} from "./utilities.js"
+import { deckData } from "./data.js"
 
 const roundWinnerMessageEl = document.getElementById('round-winner-message')
 const gameWinnerMessageEl = document.getElementById('game-winner-message')
@@ -165,33 +166,26 @@ function gameStart() {
 
 
 class Character {
-    constructor(ref, characterName, magic, cunning, courage, wisdom, temper, image) {
-        this.ref = ref
-        this.characterName = characterName
-        this.magic = magic
-        this.cunning = cunning
-        this.courage = courage
-        this.wisdom = wisdom
-        this.temper = temper
-        this.image = image
+    constructor(data) {
+       Object.assign(this, data)
     }
         cardRenderer() {    
-              
+              const {characterName, image, magic, cunning, courage, wisdom, temper} = this
            currentTurn? turn = card1El : turn = card2El
 
             turn.innerHTML =  
             `<p class="cheeky-hint">Swipe to peek at their card!</p>
-            <h2>${this.characterName}</h2>
+            <h2>${characterName}</h2>
             <div class="image-container">
-            <img src=${this.image} class="character-image"></>
+            <img src=${image} class="character-image"></>
             </div>
             
             <ul class="button-container" id="buttonContainer${turn.id}">
-            <li id="magic" class="magic">Magic <span>&#10148;</span> ${this.magic} </li>
-            <li id="cunning" class="cunning">Cunning <span>&#10148;</span> ${this.cunning} </li>
-            <li id="courage" class="courage">Courage <span>&#10148;</span> ${this.courage} </li>
-            <li id="wisdom" class="wisdom">Wisdom <span>&#10148;</span> ${this.wisdom} </li>
-            <li id="temper" class="temper">Temper <span>&#10148;</span> ${this.temper} </li>
+            <li id="magic" class="magic">Magic <span>&#10148;</span> ${magic} </li>
+            <li id="cunning" class="cunning">Cunning <span>&#10148;</span> ${cunning} </li>
+            <li id="courage" class="courage">Courage <span>&#10148;</span> ${courage} </li>
+            <li id="wisdom" class="wisdom">Wisdom <span>&#10148;</span> ${wisdom} </li>
+            <li id="temper" class="temper">Temper <span>&#10148;</span> ${temper} </li>
         </ul>`
         
             currentTurn = !currentTurn    
@@ -657,46 +651,51 @@ function gameFinished (){
     })
 }
 
-const argusFilch = new Character (1,"Argus Filch",0,17,10,40,10,"/images/filch.jpg")
-const severusSnape = new Character (2,"Severus Snape",120,45,80,76,9,"/images/snape.jpg")
-const dracoMalfoy = new Character (3,"Draco Malfoy",60,35,30,28,21,"/images/draco.jpg")
-const rubeusHagrid = new Character (4,"Rubeus Hagrid",12,13,45,15,12,"/images/hagrid.png")
-const lunaLovegood = new Character (5,"Luna Lovegood",50,18,65,48,2,"/images/luna.jpg")
-const lordVoldemort = new Character (6,"Lord Voldemort",120,42,0,60,25,"/images/voldemort.jpg")
-const ginnyWeasley = new Character (7,"Ginny Weasley",50,22,65,45,11,"/images/ginny.jpg")
-const alectoCarrow = new Character (8,"Alecto Carrow",60,30,20,44,18,"/images/alecto.png")
-const hermioneGranger = new Character (9,"Hermione Granger",88,32,70,100,5,"/images/hermione.jpg")
-const bellatrixLestrange = new Character (10,"Bellatrix Lestrange",112,36,4,55,25,"/images/bellatrix.jpg")
-const griphook = new Character (11,"Griphook",40,30,30,40,10,"/images/griphook.jpg")
-const aberforthDumbledore = new Character (12,"Prof. Dumbledore",40,32,45,50,10,"/images/dumbledore.jpg")
-const feurirGreyback = new Character (13,"Feurir Greyback",65,30,9,40,18,"/images/feurir.jpg")
-const minervaMcgonagall = new Character (14,"Prof. McGonagall",107,36,45,85,20,"/images/mcgonagall.jpg")
-const percyWeasley = new Character (15,"Percy Weasley",65,15,40,42,10,"/images/percy.jpg")
-const choChang = new Character (16,"Cho Chang",50,12,55,40,3,"/images/cho.jpg")
-const nevilleLongbottom = new Character (17,"Neville Longbottom",68,36,75,48,9,"/images/neville.jpg")
-const mrOllivander = new Character (18,"Mr Ollivander",65,20,40,72,3,"/images/ollivander.jpg")
-const ronWeasley = new Character (19,"Ron Weasley",80,25,70,60,10,"/images/ron.jpg")
-const harryPotter = new Character (20,"Harry Potter",95,40,80,100,8,"/images/harry.jpg")
-const seamusFinnegan = new Character (21,"Seamus Finnegan",45,20,50,21,3,"/images/seamus.jpg")
-const sybillTrelawney = new Character (22,"Sybill Trelawney",50,11,40,45,3,"/images/sybill.jpg")
-const nagini = new Character (23,"Nagini",0,40,1,10,25,"/images/nagini.jpg")
-const deanThomas = new Character (24,"Dean Thomas",45,20,50,26,5,"/images/dean.jpg")
-const gregoryGoyle = new Character (25,"Gregory Goyle",18,20,7,1,16,"/images/gregory.jpg")
-const amycusCarrow = new Character (26,"Amycus Carrow",59,31,20,44,19,"/images/amycus.png")
+
+const argusFilch = new Character (deckData[0])
+const severusSnape = new Character (deckData[1])
+const dracoMalfoy = new Character (deckData[2])
+const rubeusHagrid = new Character (deckData[3])
+const lunaLovegood = new Character (deckData[4])
+const lordVoldemort = new Character (deckData[5])
+const ginnyWeasley = new Character (deckData[6])
+const alectoCarrow = new Character (deckData[7])
+const hermioneGranger = new Character (deckData[8])
+const bellatrixLestrange = new Character (deckData[9])
+const griphook = new Character (deckData[10])
+const aberforthDumbledore = new Character (deckData[11])
+const feurirGreyback = new Character (deckData[12])
+const minervaMcgonagall = new Character (deckData[13])
+const percyWeasley = new Character (deckData[14])
+const choChang = new Character (deckData[15])
+const nevilleLongbottom = new Character (deckData[16])
+const mrOllivander = new Character (deckData[17])
+const ronWeasley = new Character (deckData[18])
+const harryPotter = new Character (deckData[19])
+const seamusFinnegan = new Character (deckData[20])
+const sybillTrelawney = new Character (deckData[21])
+const nagini = new Character (deckData[22])
+const deanThomas = new Character (deckData[23])
+const gregoryGoyle = new Character (deckData[24])
+const amycusCarrow = new Character (deckData[25])
+
 
 const characters = [argusFilch,severusSnape,dracoMalfoy,rubeusHagrid,lunaLovegood,lordVoldemort,ginnyWeasley,alectoCarrow,hermioneGranger,bellatrixLestrange,griphook,aberforthDumbledore,feurirGreyback,minervaMcgonagall,percyWeasley,choChang,nevilleLongbottom,mrOllivander,ronWeasley,harryPotter,seamusFinnegan,sybillTrelawney,nagini,deanThomas,gregoryGoyle,amycusCarrow]
+
 
 characters.forEach((character)=>{
     character.ref%2 !== 0? player1Deck.push(character) : player2Deck.push(character);
     //character.ref === 1? player2Deck.push(character) : player1Deck.push(character);
 })
 
+//refactoring task
+//change all charcetr creating to access data rather th\n the data being in the constructor calling. import and export will have to be set up too
+// characters is only used by the shiffling foreach currenty. perhaps store the characters data in data.js and export to app.js, change the foreaches to a shuffle function and import that, when new constructor is called it should access the data rather than passing all info then the constructor can deconstruct that data.
 
+//amending all those constructors into one big data file is a days 
 //make stats container two divs that go from column to row
 // make dice roll element grid 
-//refactoing
 //lets playbtn and unbalanced lets play  and lets play 2btn are a duplication of code - resolve
 //732 lines of code before refactoring
-
 
 
