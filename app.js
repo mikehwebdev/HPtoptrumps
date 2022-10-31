@@ -65,7 +65,7 @@ nextBtn.addEventListener('click', ()=>{
     deckChoiceContainerEl.classList.add('visible')
 })
 
-//This event listener calls deckManipulator which chooses the game deck(HP house) and sets off an animation to add a bit of whizz to the app
+//This event listener calls deckManipulator which chooses the game deck(Harry Potter house colours) and sets off an animation to add a bit of whizz to the app
 document.querySelector('.deck-grid').addEventListener('click', deckManipulator)
 
 //This a navigation element transition
@@ -74,7 +74,7 @@ document.getElementById('ontoCustomCards').addEventListener('click', ()=>{
     customCardQuestionEl.classList.add('visible')
 })
 
-// in the below if user chooses to create a card it clears any previously uploaded image from localStorage and calls clearCardStats() to clear any previously stored card stats. This is done because this function is also called if the user creates a second custom card saving ther need for a second function.
+// If user chooses to create a card it clears any previously uploaded image from localStorage and calls clearCardStats() to clear any previously stored card stats. This is done because this function is also called if the user creates a second custom card saving ther need for a second function.
 document.getElementById('cardCreatorBtn').addEventListener('click', ()=>{
     localStorage.removeItem("uploaded image")
     clearCardStats()
@@ -114,7 +114,7 @@ letsPlayBtn.addEventListener('click', ()=>{
  })
  
  
- //This function removes the dice roll section, makes the card container visible, establishes which player won the dice roll and then sets the currentTurn boolean to the approriate setting (true for player 1's turn, false for player2). We use this boolean as an ongoing record of whose turn it is through the game.
+ //letsPlay() removes the dice roll section, makes the card container visible, establishes which player won the dice roll and then sets the currentTurn boolean to the approriate setting (true for player 1's turn, false for player2). We use this boolean as an ongoing record of whose turn it is through the game.
  function letsPlay(){
      diceRollEl.classList.remove('visible')
      document.querySelector('.card-container').classList.add('visible')
@@ -127,7 +127,7 @@ letsPlayBtn.addEventListener('click', ()=>{
  }
  
 
-//This function starts the actual game
+//gameStart() starts the actual game
 function gameStart() {
     //This pushes the first card from each player deck into a battleArray
     battleArray.push(player1Deck[0], player2Deck[0])
@@ -199,6 +199,7 @@ class Character {
 
     }
 
+    //this takes the user past the custom card section and staright to the dice roll section
 document.getElementById('skipBtn').addEventListener('click', ()=>{
     customCardQuestionEl.classList.remove('visible')
     diceRollEl.classList.add('visible')
@@ -207,25 +208,36 @@ document.getElementById('skipBtn').addEventListener('click', ()=>{
     letsPlayBtn.style.display = 'none'
 })
 
+
+//when the dice is rolled
 diceBtn.addEventListener('click', ()=>{
+    //we disable the button to ensure the user doesn;t endlessly roll
     diceBtn.classList.add('disabled-controls')
+    // we set a variable of diceCount to 0 as we'll be using this to track dicerolls
     let diceCount = 0
+    //this communicates to the user that the dice is currently rolling
     rollWinner.innerHTML = `<h2 class="centered-h2">Rolling...</h2>`
+    //we setInterval to run this function repeatedly
     let myInterval = setInterval(()=>{
+        //diceRoll() returns a value of 1-6 which we can use as a filename which has an image with the corresponding number
         dice1El.innerHTML = `<img src="./images/${diceRoll()}.png" class="dice-image">`
         dice2El.innerHTML = `<img src="./images/${diceRoll()}.png" class="dice-image">`
+        //diceCount is incremented
         diceCount = diceCount +1
-        
+        //once we've gone through this process enough times to get the diceCount up to 20 (and to give the illusion of rolling dice)we clearInterval
         if (diceCount === 20){
             
             clearInterval(myInterval)
+
+        // if the two amounts don't match wew make the lets play button visible again and remove the dice button
             if (dice1El.innerHTML !== dice2El.innerHTML) {
                 letsPlayBtn.style.display = 'block'
                 diceBtn.style.display = 'none'
                 
-
+            //I communicate who won the roll ad they can click on
             dice1El.innerHTML > dice2El.innerHTML? rollWinner.innerHTML = `<h2 class="centered-h2">${localStorage.getItem('p1Name')} goes first!</h2>`: rollWinner.innerHTML = `<h2 class="centered-h2">${localStorage.getItem('p2Name')} goes first!</h2>`
             diceBtn.classList.remove('disabled-controls')
+            //or its a draw and they have to roll again
         } else {
             rollWinner.innerHTML = `<h2 class="centered-h2">It's a draw.<br> Roll again!</h2>`
             diceBtn.classList.remove('disabled-controls')
@@ -462,6 +474,7 @@ function battleLogic(){
                 }
             }})
         } )}
+
 //removes blur from both cards and disables controls as there is no player action to take
 function compareStats(){
         card1Outer.classList.remove('blurred')
@@ -620,6 +633,7 @@ function afterRoundClassSetter(winner){
         }
 }
 
+//if the final round is played a message is displayed with the winner and asking if user would like to play again. If they do we reset global variables back to their start conditions, reshuffle the deck and trigger gameStart()
 function gameFinished (){
     roundWinnerMessageEl.classList.remove('visible')
     gameWinnerMessageEl.classList.add('visible')
@@ -637,7 +651,7 @@ function gameFinished (){
         winner = ''
         characters.forEach((character)=>{
             character.ref%2 !== 0? player1Deck.push(character) : player2Deck.push(character);
-            //character.ref === 1? player2Deck.push(character) : player1Deck.push(character);
+            
         })
         gameStart()
     })
